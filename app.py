@@ -19,11 +19,6 @@ CORS(app, resources={
 # Register blueprint
 app.register_blueprint(predict_bp)
 
-# This route must be outside the __main__ block
-@app.route('/')
-def home():
-    return 'Hello from RM\'S COLLECTION'
-
 # This block only runs locally, not in production
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))

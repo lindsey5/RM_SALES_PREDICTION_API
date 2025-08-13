@@ -98,12 +98,12 @@ def forecast_next_days(model, historical_data, num_days=30):
         prediction = max(prediction, 0)
         
         # Store prediction
-        predictions.append(prediction)
+        predictions.append({"date": date, "prediction": prediction})
         
         # Update the combined dataframe with the prediction
         combined_df.loc[date, 'AMOUNT'] = prediction
 
-    return forecast_dates, predictions
+    return predictions
 
 
 
@@ -118,11 +118,10 @@ def predict_future_sales():
         daily_sales.sort_index(inplace=True)
 
         # Forecast future sales
-        future_dates, predictions = forecast_next_days(model, daily_sales, num_days=30)
+        predictions = forecast_next_days(model, daily_sales, num_days=30)
 
         return {
-            'forecast':[float(pred) for pred in predictions],
-            'dates': future_dates.strftime('%Y-%m-%d').tolist(),
+            'forecast': predictions,
             'success': True,
         }
     except Exception as e:
